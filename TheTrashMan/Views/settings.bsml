@@ -1,0 +1,13 @@
+<settings-container>
+  <horizontal>
+    <text text='Presets' font-size='5'></text>
+    <horizontal pref-width='30' child-align='MiddleCenter'>
+      <clickable-text text='Recommended' align='Center' on-click='recommended-click'></clickable-text>
+      <text text='|' align='Center'></text>
+      <clickable-text text='Default' align='Center' on-click='default-click'></clickable-text>
+    </horizontal>
+  </horizontal>
+  <bool-setting text='Disable GC during gameplay' value='disable-in-gamecore'></bool-setting>
+  <dropdown-list-setting text='Gameplay GC Mode' value='gamecore-mode' options='modes'></dropdown-list-setting>
+  <dropdown-list-setting text='Menu GC Mode' value='menu-mode' options='modes'></dropdown-list-setting>
+</settings-container>
