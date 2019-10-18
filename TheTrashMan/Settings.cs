@@ -79,5 +79,11 @@ namespace TheTrashMan
             MenuMode = GCLatencyMode.Interactive;
             parserParams.EmitEvent("cancel");
         }
+
+        [UIAction("donate-click")]
+        public void Donate()
+        {
+            System.Diagnostics.Process.Start("https://ko-fi.com/monkeymanboy");
+        }
     }
 }

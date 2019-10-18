@@ -7,7 +7,16 @@
       <clickable-text text='Default' align='Center' on-click='default-click'></clickable-text>
     </horizontal>
   </horizontal>
-  <bool-setting text='Disable GC during gameplay' value='disable-in-gamecore'></bool-setting>
+  <bool-setting text='Disable GC during gameplay' value='disable-in-gamecore' hover-hint='May cause issues on low memory machines!'></bool-setting>
   <dropdown-list-setting text='Gameplay GC Mode' value='gamecore-mode' options='modes'></dropdown-list-setting>
   <dropdown-list-setting text='Menu GC Mode' value='menu-mode' options='modes'></dropdown-list-setting>
+  <settings-submenu text='Donate'>
+    <settings-container>
+      <clickable-text text='[&lt;] Back' click-event='back'></clickable-text>
+      <horizontal>
+        <text align='Center' font-size='5' text='If you enjoy using my mods please consider donating'></text>
+      </horizontal>
+      <clickable-text align='Center' underlined='true' text='ko-fi.com/monkeymanboy' on-click='donate-click'></clickable-text>
+    </settings-container>
+  </settings-submenu>
 </settings-container>
