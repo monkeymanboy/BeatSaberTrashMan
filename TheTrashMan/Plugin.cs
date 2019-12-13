@@ -11,7 +11,7 @@ namespace TheTrashMan
     {
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
-            if (nextScene.name == "MenuCore")
+            if (nextScene.name == "MenuViewControllers")
             {
                 BSMLSettings.instance.AddSettingsMenu("The Trash Man", "TheTrashMan.Views.settings.bsml", Settings.instance);
                 GarbageCollector.GCMode = GarbageCollector.Mode.Enabled;
