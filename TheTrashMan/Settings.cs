@@ -64,7 +64,7 @@ namespace TheTrashMan
         [UIAction("recommended-click")]
         public void RecommendedPreset()
         {
-            DisableInGameCore = false;
+            DisableInGameCore = true;
             GameCoreMode = GCLatencyMode.LowLatency;
             MenuMode = GCLatencyMode.Interactive;
             parserParams.EmitEvent("cancel");
