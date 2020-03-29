@@ -7,13 +7,23 @@ using UnityEngine.Scripting;
 
 namespace TheTrashMan
 {
-    public class Plugin : IBeatSaberPlugin
+    [Plugin(RuntimeOptions.SingleStartInit)]
+    public class Plugin
     {
         private bool isInGameCore;
-        public void OnApplicationStart()
+
+        [OnStart]
+        public void OnStart()
         {
             GarbageCollector.GCModeChanged += GCModeChanged;
             BSMLSettings.instance.AddSettingsMenu("The Trash Man", "TheTrashMan.Views.settings.bsml", Settings.instance);
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        }
+
+        [OnExit]
+        public void OnExit()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
@@ -38,11 +48,5 @@ namespace TheTrashMan
             if (Settings.instance.DisableInGameCore && isInGameCore && mode != GarbageCollector.Mode.Disabled)
                 GarbageCollector.GCMode = GarbageCollector.Mode.Disabled;
         }
-
-        public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode) { }
-        public void OnApplicationQuit() { }
-        public void OnSceneUnloaded(Scene scene) { }
-        public void OnUpdate() { }
-        public void OnFixedUpdate() { }
     }
 }
