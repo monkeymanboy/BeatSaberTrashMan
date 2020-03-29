@@ -4,7 +4,7 @@
   "description": [
     "#![TheTrashMan.Resources.description.md]"
   ],
-  "gameVersion": "1.6.0",
+  "gameVersion": "1.8.0",
   "icon": "TheTrashMan.Resources.icon.png",
   "id": "TheTrashMan",
   "name": "TheTrashMan",
