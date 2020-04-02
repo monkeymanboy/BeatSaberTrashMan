@@ -1,7 +1,7 @@
 ﻿using BeatSaberMarkupLanguage.Settings;
 using IPA;
-using System;
 using System.Runtime;
+using IPA.Logging;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting;
 
@@ -10,43 +10,46 @@ namespace TheTrashMan
     [Plugin(RuntimeOptions.SingleStartInit)]
     public class Plugin
     {
-        private bool isInGameCore;
+        public static Logger Log { get; set; }
+        private bool IsInGameCore { get; set; }
 
         [OnStart]
         public void OnStart()
         {
             GarbageCollector.GCModeChanged += GCModeChanged;
-            BSMLSettings.instance.AddSettingsMenu("The Trash Man", "TheTrashMan.Views.settings.bsml", Settings.instance);
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            BSMLSettings.instance.AddSettingsMenu("The Trash Man", "TheTrashMan.Views.settings.bsml", Settings.instance);
         }
 
-        [OnExit]
         public void OnExit()
         {
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            GarbageCollector.GCModeChanged -= GCModeChanged;
         }
 
-        public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
-        {
-            if (nextScene.name == "MenuViewControllers")
-            {
-                isInGameCore = false;
-                GarbageCollector.GCMode = GarbageCollector.Mode.Enabled;
-                GCSettings.LatencyMode = Settings.instance.MenuMode;
-            }
-            if (nextScene.name == "GameCore")
-            {
-                isInGameCore = true;
-                if (Settings.instance.DisableInGameCore)
-                    GarbageCollector.GCMode = GarbageCollector.Mode.Disabled;
-                GCSettings.LatencyMode = Settings.instance.GameCoreMode;
-            }
-        }
+        public void OnActiveSceneChanged(Scene prevScene, Scene nextScene) 
+            => ApplyGCMode(IsInGameCore = nextScene.name == "GameCore");
 
-        private void GCModeChanged(GarbageCollector.Mode mode)
+        private void GCModeChanged(GarbageCollector.Mode mode) 
+            => ApplyGCMode(IsInGameCore);
+
+        private static void ApplyGCMode(bool isInGameCore)
         {
-            if (Settings.instance.DisableInGameCore && isInGameCore && mode != GarbageCollector.Mode.Disabled)
-                GarbageCollector.GCMode = GarbageCollector.Mode.Disabled;
+            var gcMode = isInGameCore && Settings.instance.DisableInGameCore 
+                ? GarbageCollector.Mode.Disabled
+                : GarbageCollector.Mode.Enabled;
+            var gcLatencyMode = isInGameCore
+                ? Settings.instance.GameCoreMode
+                : Settings.instance.MenuMode;
+
+            if (GarbageCollector.GCMode != gcMode) {
+                Log.Debug($"GarbageCollector.GCMode: {GarbageCollector.GCMode} -> {gcMode}");
+                GarbageCollector.GCMode = gcMode;
+            }
+            if (GCSettings.LatencyMode != gcLatencyMode) {
+                Log.Debug($"GCSettings.LatencyMode: {GCSettings.LatencyMode} -> {gcLatencyMode}");
+                GCSettings.LatencyMode = gcLatencyMode;
+            }
         }
     }
 }

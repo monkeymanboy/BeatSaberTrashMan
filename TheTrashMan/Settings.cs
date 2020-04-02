@@ -13,7 +13,7 @@ namespace TheTrashMan
         private Config config;
 
         [UIParams]
-        private BSMLParserParams parserParams;
+        private BSMLParserParams parserParams = null;
 
         [UIValue("modes")]
         private List<object> options = (new object[]{ GCLatencyMode.Batch, GCLatencyMode.Interactive, GCLatencyMode.LowLatency, GCLatencyMode.SustainedLowLatency }).ToList();
@@ -61,6 +61,7 @@ namespace TheTrashMan
             else
                 menuMode = GCLatencyMode.Interactive;
         }
+
         [UIAction("recommended-click")]
         public void RecommendedPreset()
         {
@@ -69,6 +70,7 @@ namespace TheTrashMan
             MenuMode = GCLatencyMode.Interactive;
             parserParams.EmitEvent("cancel");
         }
+
         [UIAction("default-click")]
         public void DefaultPreset()
         {
