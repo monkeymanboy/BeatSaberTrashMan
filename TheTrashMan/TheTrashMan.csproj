@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <LangVersion>default</LangVersion>
     <AssemblyVersion>1.0.8</AssemblyVersion>
     <FileVersion>1.0.8</FileVersion>
@@ -51,6 +51,12 @@
     <EmbeddedResource Include="Resources\icon.png" />
     <None Remove="Views\settings.bsml" />
     <EmbeddedResource Include="Views\settings.bsml" />
+    <None Remove="manifest.json" />
+    <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
+
+  <Target Name="CopyToPlugins" AfterTargets="AfterBuild">
+    <Copy SourceFiles="$(TargetDir)\TheTrashMan.dll" DestinationFolder="$(BeatSaberDir)\Plugins" ContinueOnError="true" />
+  </Target>
 
 </Project>
